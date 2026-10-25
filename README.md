@@ -19,9 +19,9 @@ Personal Expense Tracker is a simple web application that helps users manage the
 - GitHub
 
 ## Team Members and Credits
-- **Team Lead / Developer:** VALLURU SHAKEER — Project development and GitHub management.
-- **Team Member 2:** [KATIKA NARENDRA] — Team participation and project discussion.
-- **Team Member 3:** [SHIVA NIKHIL] — Team participation and project discussion.
+- **Team Lead:** VALLURU SHAKEER — Project development and GitHub management.
+- **Developer 1:** [KATIKA NARENDRA] — Team participation and project discussion.
+- **Developer 2:** [SHIVA NIKHIL] — Team participation and project discussion.
 
 *Credits recognize participation and support. GitHub history shows the actual code contributions.*
 
