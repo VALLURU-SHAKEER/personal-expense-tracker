@@ -1,4 +1,5 @@
 
+const categoryFilter = document.getElementById("category-filter");
 const form = document.getElementById("expense-form");
 const nameInput = document.getElementById("expense-name");
 const amountInput = document.getElementById("expense-amount");
@@ -24,16 +25,28 @@ function updateTotal() {
 function displayExpenses() {
     expenseItems.innerHTML = "";
 
-    if (expenses.length === 0) {
+    const selectedCategory = categoryFilter.value;
+
+    const filteredExpenses = selectedCategory === "All"
+        ? expenses
+        : expenses.filter(
+            expense => expense.category === selectedCategory
+        );
+
+    if (filteredExpenses.length === 0) {
         const message = document.createElement("li");
         message.id = "empty-message";
-        message.textContent = "No expenses added yet.";
+
+        message.textContent = expenses.length === 0
+            ? "No expenses added yet."
+            : "No expenses found in this category.";
+
         expenseItems.appendChild(message);
         updateTotal();
         return;
     }
 
-    expenses.forEach((expense) => {
+    filteredExpenses.forEach((expense) => {
         const item = document.createElement("li");
         item.className = "expense-item";
 
@@ -43,9 +56,10 @@ function displayExpenses() {
         const title = document.createElement("strong");
         title.textContent = expense.name;
 
-        const category = document.createElement("small");
         const date = document.createElement("small");
-date.textContent = expense.date;
+        date.textContent = expense.date || "No date";
+
+        const category = document.createElement("small");
         category.textContent = expense.category;
 
         const amount = document.createElement("div");
@@ -64,8 +78,9 @@ date.textContent = expense.date;
 
         deleteButton.addEventListener("click", () => {
             expenses = expenses.filter(
-                (entry) => entry.id !== expense.id
+                entry => entry.id !== expense.id
             );
+
             localStorage.setItem("expenses", JSON.stringify(expenses));
             displayExpenses();
         });
@@ -88,22 +103,31 @@ form.addEventListener("submit", (event) => {
     const date = dateInput.value;
     const category = categoryInput.value;
 
-    if (!name || !Number.isFinite(amount) || amount <= 0 || !category) {
+    if (
+        !name ||
+        !Number.isFinite(amount) ||
+        amount <= 0 ||
+        !date ||
+        !category
+    ) {
         alert("Please enter valid expense details.");
         return;
     }
 
     expenses.push({
-    id: Date.now() + Math.random(),
-    name: name,
-    amount: amount,
-    category: category,
-    date: date
-});
-localStorage.setItem("expenses", JSON.stringify(expenses));
+        id: Date.now() + Math.random(),
+        name: name,
+        amount: amount,
+        category: category,
+        date: date
+    });
+
+    localStorage.setItem("expenses", JSON.stringify(expenses));
 
     form.reset();
     displayExpenses();
 });
+
+categoryFilter.addEventListener("change", displayExpenses);
 
 displayExpenses();
