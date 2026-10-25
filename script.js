@@ -2,6 +2,7 @@
 const form = document.getElementById("expense-form");
 const nameInput = document.getElementById("expense-name");
 const amountInput = document.getElementById("expense-amount");
+const dateInput = document.getElementById("expense-date");
 const categoryInput = document.getElementById("expense-category");
 const expenseItems = document.getElementById("expense-items");
 const totalExpenses = document.getElementById("total-expenses");
@@ -43,6 +44,8 @@ function displayExpenses() {
         title.textContent = expense.name;
 
         const category = document.createElement("small");
+        const date = document.createElement("small");
+date.textContent = expense.date;
         category.textContent = expense.category;
 
         const amount = document.createElement("div");
@@ -52,6 +55,7 @@ function displayExpenses() {
         });
 
         details.appendChild(title);
+        details.appendChild(date);
         details.appendChild(category);
 
         const deleteButton = document.createElement("button");
@@ -80,6 +84,7 @@ form.addEventListener("submit", (event) => {
 
     const name = nameInput.value.trim();
     const amount = Number(amountInput.value);
+    const date = dateInput.value;
     const category = categoryInput.value;
 
     if (!name || !Number.isFinite(amount) || amount <= 0 || !category) {
@@ -88,11 +93,12 @@ form.addEventListener("submit", (event) => {
     }
 
     expenses.push({
-        id: Date.now() + Math.random(),
-        name: name,
-        amount: amount,
-        category: category
-    });
+    id: Date.now() + Math.random(),
+    name: name,
+    amount: amount,
+    category: category,
+    date: date
+});
 
     form.reset();
     displayExpenses();
