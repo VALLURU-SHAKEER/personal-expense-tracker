@@ -7,7 +7,7 @@ const categoryInput = document.getElementById("expense-category");
 const expenseItems = document.getElementById("expense-items");
 const totalExpenses = document.getElementById("total-expenses");
 
-let expenses = [];
+let expenses = JSON.parse(localStorage.getItem("expenses")) || [];
 
 function updateTotal() {
     const total = expenses.reduce(
@@ -66,6 +66,7 @@ date.textContent = expense.date;
             expenses = expenses.filter(
                 (entry) => entry.id !== expense.id
             );
+            localStorage.setItem("expenses", JSON.stringify(expenses));
             displayExpenses();
         });
 
@@ -99,6 +100,7 @@ form.addEventListener("submit", (event) => {
     category: category,
     date: date
 });
+localStorage.setItem("expenses", JSON.stringify(expenses));
 
     form.reset();
     displayExpenses();
